@@ -19,10 +19,8 @@ simpleRouter.delete('/:id', async(req,res)=>{
         let task = await Task.findByIdAndDelete(req.params.id)
         let checklist = await Checklist.findById(task.checklist)
         let taskToRemove = checklist.tasks.indexOf(task._id)
-        console.log(taskToRemove)
         checklist.tasks.splice(taskToRemove,1)
         checklist.save()
-        console.log(checklist.tasks)
         res.redirect(`/checklists/${checklist._id}`)
     } catch (error) {
         res.status(422).render('pages/error', {error: error.message})
